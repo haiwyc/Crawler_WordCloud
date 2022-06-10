@@ -43,15 +43,17 @@ class Crawler(Public):
                 titleflag = False
         return titleflag
 
+    def writetext(self,text,title):
+        if text:
+            file = open(self.pathjoin(self.getpath(), 'doc', self.getfliename(title)), 'w', encoding='utf-8-sig')
+            for t in text:
+                file.write(t + "\n")
+            file.close()
+
     def writedoc(self,url):
         urllist = self.geturl(url)
         for u in urllist:
             title = self.gettitle(u)
             if self.checktitle(title):
                 self.Titlelist.append(title)
-                text = self.gettext(u)
-                if text:
-                    file = open(self.pathjoin(self.getpath(), 'doc', self.getfliename(title)), 'w', encoding='utf-8-sig')
-                    for t in text:
-                        file.write(t+"\n")
-                    file.close()
+                self.writetext(self.gettext(u),title)
